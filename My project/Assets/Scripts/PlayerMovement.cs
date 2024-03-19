@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour{
     private GameObject pivot,line,target;
     private Rigidbody2D rb2dplayer;
     private int currentState = 0;
+    [SerializeField] private float strength = 10f;
 
     void Start(){
         pivot = transform.GetChild(0).gameObject;
@@ -25,7 +26,7 @@ public class PlayerMovement : MonoBehaviour{
             if (currentState == 2)startForceTarget();
             if (currentState == 3){
                 Vector3 shootVector = target.transform.position - pivot.transform.position;
-                rb2dplayer.AddForce(shootVector);
+                rb2dplayer.AddForce(shootVector*strength);
             }
         }
     }
@@ -48,6 +49,7 @@ public class PlayerMovement : MonoBehaviour{
                 pivot.transform.rotation = initialRotation * Quaternion.Euler(0f, 0f, angle);
                 yield return null;
             }
+            if (flag == 1)break;
             for (float angle = 90f; angle >= 0f; angle -= lineRotateSpeed * Time.deltaTime){
                 if (currentState > 1){
                     flag = 1;
@@ -59,7 +61,6 @@ public class PlayerMovement : MonoBehaviour{
             if (flag == 1)break;
         }
         Debug.Log("Rotation finished");
-        yield return null; // Add this line to satisfy the IEnumerator return type
     }
 
     void startForceTarget(){
@@ -77,19 +78,20 @@ public class PlayerMovement : MonoBehaviour{
                     flag = 1;
                     break;
                 }
-                target.transform.position = new Vector3(x,0f,0f);
+                target.transform.localPosition = new Vector3(x,0f,0f);
+                yield return null;
             }
             for(float x=-0.5f;x<=0.5f;x+=lineChangeSpeed*Time.deltaTime){
                 if (currentState > 2){
                     flag = 1;
                     break;
                 }
-                target.transform.position = new Vector3(x,0f,0f);
+                target.transform.localPosition = new Vector3(x,0f,0f);
+                yield return null;
             }
             if (flag == 1)break;
         }
         Debug.Log("ChangeLineLength finished");
-        yield return null; // Add this line to satisfy the IEnumerator return type
     }
 }
 
