@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour{
     private GameObject pivot,line,target;
+    private SpriteRenderer sr_line,sr_target;
     private Rigidbody2D rb2dplayer;
     private int currentState = 0;
     [SerializeField] private float strength = 10f;
@@ -16,6 +17,10 @@ public class PlayerMovement : MonoBehaviour{
         Debug.Log(line.name);
         Debug.Log(target.name);
         rb2dplayer = GetComponent<Rigidbody2D>();
+        sr_line = line.GetComponent<SpriteRenderer>();
+        sr_target = target.GetComponent<SpriteRenderer>();
+        sr_line.enabled = false;
+        sr_target.enabled = false;
         resetTransform();
     }
 
@@ -30,6 +35,7 @@ public class PlayerMovement : MonoBehaviour{
     }
 
     void startRotationTarget(){
+        sr_line.enabled = true;
         StartCoroutine(RotatePivot());
     }
 
@@ -62,6 +68,7 @@ public class PlayerMovement : MonoBehaviour{
     }
 
     void startForceTarget(){
+        sr_target.enabled = true;
         StartCoroutine(ChangeLineLength());
     }
 
@@ -71,7 +78,7 @@ public class PlayerMovement : MonoBehaviour{
 
         while (true){
             int flag = 0;
-            for(float x=0.5f;x>=-0.5f;x-=lineChangeSpeed*Time.deltaTime){
+            for(float x=-0.5f;x<=0.5f;x+=lineChangeSpeed*Time.deltaTime){
                 if (currentState > 2){
                     flag = 1;
                     break;
@@ -79,7 +86,7 @@ public class PlayerMovement : MonoBehaviour{
                 target.transform.localPosition = new Vector3(x,0f,0f);
                 yield return null;
             }
-            for(float x=-0.5f;x<=0.5f;x+=lineChangeSpeed*Time.deltaTime){
+            for(float x=0.5f;x>=-0.5f;x-=lineChangeSpeed*Time.deltaTime){
                 if (currentState > 2){
                     flag = 1;
                     break;
@@ -93,6 +100,8 @@ public class PlayerMovement : MonoBehaviour{
     }
 
     void shootPlayer(){
+        sr_line.enabled = false;
+        sr_target.enabled = false;
         StartCoroutine(_shootPlayer());
     }
 
@@ -105,8 +114,8 @@ public class PlayerMovement : MonoBehaviour{
             time += Time.deltaTime;
             if (rb2dplayer.velocity.sqrMagnitude == 0f && time > 1f){
                 Debug.Log("Player stopped");
-                currentState = 0;
                 resetTransform();
+                currentState = 0;
                 break;
             }
             yield return null;
