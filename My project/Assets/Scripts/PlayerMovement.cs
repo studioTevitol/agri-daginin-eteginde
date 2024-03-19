@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour{
         Debug.Log(line.name);
         Debug.Log(target.name);
         rb2dplayer = GetComponent<Rigidbody2D>();
+        resetTransform();
     }
 
     void Update(){
@@ -24,10 +25,7 @@ public class PlayerMovement : MonoBehaviour{
             currentState++;
             if (currentState == 1)startRotationTarget();
             if (currentState == 2)startForceTarget();
-            if (currentState == 3){
-                Vector3 shootVector = target.transform.position - pivot.transform.position;
-                rb2dplayer.AddForce(shootVector*strength);
-            }
+            if (currentState == 3)shootPlayer();
         }
     }
 
@@ -92,6 +90,34 @@ public class PlayerMovement : MonoBehaviour{
             if (flag == 1)break;
         }
         Debug.Log("ChangeLineLength finished");
+    }
+
+    void shootPlayer(){
+        StartCoroutine(_shootPlayer());
+    }
+
+    IEnumerator _shootPlayer(){
+        Vector3 shootVector = target.transform.position - pivot.transform.position;
+        rb2dplayer.AddForce(shootVector*strength);
+        float time = 0f;
+        yield return null;
+        while(true){
+            time += Time.deltaTime;
+            if (rb2dplayer.velocity.sqrMagnitude == 0f && time > 1f){
+                Debug.Log("Player stopped");
+                currentState = 0;
+                resetTransform();
+                break;
+            }
+            yield return null;
+        }
+    }
+
+    void resetTransform(){
+        pivot.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        target.transform.localPosition = new Vector3(0.5f,0f,0f);
+        rb2dplayer.velocity = Vector2.zero;
+        rb2dplayer.angularVelocity = 0f;
     }
 }
 
