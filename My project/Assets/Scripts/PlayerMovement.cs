@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour{
     private GameObject pivot,line,target;
-    private SpriteRenderer sr_line,sr_target;
+    [SerializeField] private GameObject mainCamera;
+    private SpriteRenderer sr_player,sr_line,sr_target;
     private Rigidbody2D rb2dplayer;
     private int currentState = 0;
     [SerializeField] private float strength = 10f;
+    public CameraScript cameraScript;
+    [SerializeField] private float waitTime = 1f;
 
     void Start(){
         pivot = transform.GetChild(0).gameObject;
@@ -21,6 +24,7 @@ public class PlayerMovement : MonoBehaviour{
         sr_target = target.GetComponent<SpriteRenderer>();
         sr_line.enabled = false;
         sr_target.enabled = false;
+        sr_player = GetComponent<SpriteRenderer>();
         resetTransform();
     }
 
@@ -40,12 +44,12 @@ public class PlayerMovement : MonoBehaviour{
     }
 
     IEnumerator RotatePivot(){
-        float lineRotateSpeed = 90f; // Set the rotation speed here
+        float lineRotateSpeed = 180f; // Set the rotation speed here
         Quaternion initialRotation = pivot.transform.rotation;
 
         while (true){
             int flag = 0;
-            for (float angle = 0f; angle <= 90f; angle += lineRotateSpeed * Time.deltaTime){
+            for (float angle = 0f; angle <= 180f; angle += lineRotateSpeed * Time.deltaTime){
                 if (currentState > 1){
                     flag = 1;
                     break;
@@ -54,7 +58,7 @@ public class PlayerMovement : MonoBehaviour{
                 yield return null;
             }
             if (flag == 1)break;
-            for (float angle = 90f; angle >= 0f; angle -= lineRotateSpeed * Time.deltaTime){
+            for (float angle = 180f; angle >= 0f; angle -= lineRotateSpeed * Time.deltaTime){
                 if (currentState > 1){
                     flag = 1;
                     break;
@@ -106,14 +110,22 @@ public class PlayerMovement : MonoBehaviour{
     }
 
     IEnumerator _shootPlayer(){
+        sr_player.color = Color.white;
         Vector3 shootVector = target.transform.position - pivot.transform.position;
         rb2dplayer.AddForce(shootVector*strength);
         float time = 0f;
         yield return null;
         while(true){
-            time += Time.deltaTime;
-            if (rb2dplayer.velocity.sqrMagnitude == 0f && time > 1f){
-                Debug.Log("Player stopped");
+            Debug.Log("mainCamera position: "+mainCamera.transform.position);
+            Debug.Log("player position: "+(transform.position+new Vector3(cameraScript.cameraxOffset,cameraScript.camerayOffset,mainCamera.transform.position.z)));
+            if(transform.position+new Vector3(cameraScript.cameraxOffset,cameraScript.camerayOffset,mainCamera.transform.position.z) == mainCamera.transform.position){
+                time += Time.deltaTime;
+            }
+            else{
+                time = 0f;
+            }
+            if (time > waitTime){
+                Debug.Log("mainCamera stopped and passed");
                 resetTransform();
                 currentState = 0;
                 break;
@@ -127,11 +139,6 @@ public class PlayerMovement : MonoBehaviour{
         target.transform.localPosition = new Vector3(0.5f,0f,0f);
         rb2dplayer.velocity = Vector2.zero;
         rb2dplayer.angularVelocity = 0f;
+        sr_player.color = new Color(0.5f,1f,0.5f,1f);
     }
 }
-
-
-
-
-//90 derece boyunca git gel yaparak yön belirleyen 
-//yukarı aşağı yaparak 
