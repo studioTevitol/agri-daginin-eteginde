@@ -19,7 +19,12 @@ public class PlayerLife : MonoBehaviour{
     }
 
     IEnumerator KillGame(){
-        yield return new WaitForSeconds(3);
-        Application.Quit();
+        Debug.Log("Game Over");
+        yield return new WaitForSeconds(0.5f);
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
     }
 }

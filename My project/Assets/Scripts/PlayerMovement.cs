@@ -40,12 +40,12 @@ public class PlayerMovement : MonoBehaviour{
     }
 
     IEnumerator RotatePivot(){
-        float lineRotateSpeed = 90f; // Set the rotation speed here
+        float lineRotateSpeed = 180f; // Set the rotation speed here
         Quaternion initialRotation = pivot.transform.rotation;
 
         while (true){
             int flag = 0;
-            for (float angle = 0f; angle <= 90f; angle += lineRotateSpeed * Time.deltaTime){
+            for (float angle = 0f; angle <= 180f; angle += lineRotateSpeed * Time.deltaTime){
                 if (currentState > 1){
                     flag = 1;
                     break;
@@ -54,7 +54,7 @@ public class PlayerMovement : MonoBehaviour{
                 yield return null;
             }
             if (flag == 1)break;
-            for (float angle = 90f; angle >= 0f; angle -= lineRotateSpeed * Time.deltaTime){
+            for (float angle = 180f; angle >= 0f; angle -= lineRotateSpeed * Time.deltaTime){
                 if (currentState > 1){
                     flag = 1;
                     break;
