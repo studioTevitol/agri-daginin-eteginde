@@ -10,6 +10,7 @@ public class LifeDisplay : MonoBehaviour
     public TextMeshProUGUI lifeText;
     public PlayerLife playerLife;
     public Image youDied;
+    [SerializeField] private List<Color> colors;
 
     void Start(){
         if(lifeText == null )Debug.Log("lifeText is null");
@@ -23,5 +24,6 @@ public class LifeDisplay : MonoBehaviour
             youDied.enabled = true;
         }
         lifeText.text=playerLife.life.ToString();
+        lifeText.color = colors[playerLife.life];
     }
 }

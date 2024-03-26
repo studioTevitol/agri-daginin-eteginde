@@ -6,6 +6,8 @@ public class CameraScript : MonoBehaviour
 {
     [SerializeField] private float maxSpeed=1f;
     [SerializeField] private GameObject player;
+    public float cameraxOffset=0f;
+    public float camerayOffset=0f;
     // Start is called before the first frame update
     void Start(){
         transform.position = new Vector3(player.transform.position.x,player.transform.position.y,transform.position.z);
@@ -13,10 +15,10 @@ public class CameraScript : MonoBehaviour
 
     // Update is called once per frame
     void Update(){
-        float dx = player.transform.position.x - transform.position.x;
-        float dy = player.transform.position.y - transform.position.y;
+        float dx = player.transform.position.x - transform.position.x + cameraxOffset;
+        float dy = player.transform.position.y - transform.position.y + camerayOffset;
         if(Mathf.Sqrt(dx*dx+dy*dy)<=maxSpeed*Time.deltaTime){
-            transform.position = new Vector3(player.transform.position.x,player.transform.position.y,transform.position.z);
+            transform.position = new Vector3(player.transform.position.x + cameraxOffset,player.transform.position.y + camerayOffset,transform.position.z);
         }
         else{
             float angle = Mathf.Atan2(dy,dx);
