@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,8 +12,13 @@ public class PlayerMovement : MonoBehaviour{
     [SerializeField] private float strength = 10f;
     public CameraScript cameraScript;
     [SerializeField] private float waitTime = 1f;
+    //experimenting with Camera class, check on unity docs of Camera class
+    private Camera m_camera1;    
+
+
 
     void Start(){
+        m_camera1 = Camera.main;
         pivot = transform.GetChild(0).gameObject;
         line = pivot.transform.GetChild(0).gameObject;
         target = line.transform.GetChild(0).gameObject;
@@ -112,10 +118,24 @@ public class PlayerMovement : MonoBehaviour{
     IEnumerator _shootPlayer(){
         sr_player.color = Color.white;
         Vector3 shootVector = target.transform.position - pivot.transform.position;
-        rb2dplayer.AddForce(shootVector*strength);
-        float time = 0f;
+        rb2dplayer.AddForce(shootVector*strength);  
+        //float time = 0f; //aşağıdaki kodu yorumlayınca bu değişken kullanılmaz oldu
         yield return null;
-        while(true){
+
+        //aşağıdaki işlemden etkilensem de daha kolay ve daha cinemachine implemente edilmiş bir yöntem kullanmaya çalıştım.
+        //eğer altta beynim yetmediğimden anlamadığım ve benim fütursuzca yorum yaptığım bir özellik varsa yaz
+        //aşağıda oyuncunun durup durmadığını ve kameranın durup durmadığını kontrol ediyorum
+        //kamera zaten cinemachine sayesinde oyuncuyu sürekli takip edecek
+        //oyuncu durursa kamera da duracak yani 
+        
+        //wip 
+        //while(i=0; i < INT_MAX;)
+        if((Mathf.Approximately(rb2dplayer.velocity.x, 0) && Mathf.Approximately(rb2dplayer.velocity.y, 0))&&(Mathf.Approximately(m_camera1.velocity.x, 0) && Mathf.Approximately(m_camera1.velocity.y, 0))){
+            resetTransform();
+            currentState = 0;
+        }
+
+        /**while(true){
             Debug.Log("mainCamera position: "+mainCamera.transform.position);
             Debug.Log("player position: "+(transform.position+new Vector3(cameraScript.cameraxOffset,cameraScript.camerayOffset,mainCamera.transform.position.z)));
             if(transform.position+new Vector3(cameraScript.cameraxOffset,cameraScript.camerayOffset,mainCamera.transform.position.z) == mainCamera.transform.position){
@@ -131,7 +151,7 @@ public class PlayerMovement : MonoBehaviour{
                 break;
             }
             yield return null;
-        }
+        }*/
     }
 
     void resetTransform(){
