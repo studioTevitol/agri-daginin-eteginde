@@ -29,12 +29,15 @@ public class PlayerMovement2 : MonoBehaviour{
     }
 
     void Update(){
+
+        //its not a bug its feature you can jump mid air 
+        //but because the target will start at lowest point even tough a player spams jump he/she cant launch itself
         if (Input.GetKeyDown(KeyCode.Space)){
             Debug.Log("Space pressed");
             currentState++;
-            if (currentState == 1)startRotationTarget();
-            if (currentState == 2)startForceTarget();
-            if (currentState == 3)shootPlayer();
+            if (currentState % 3 == 1)startRotationTarget();
+            if (currentState % 3 == 2)startForceTarget();
+            if (currentState % 3 == 0)shootPlayer();
         }
 
         //to test jumping
@@ -51,9 +54,8 @@ public class PlayerMovement2 : MonoBehaviour{
 
         }
 
-        //testing target position
-        //it starts at fucking random position
-        Debug.Log(target.transform.localPosition);
+        //
+        Debug.Log(currentState % 3);
     }
 
     void startRotationTarget(){
@@ -62,13 +64,13 @@ public class PlayerMovement2 : MonoBehaviour{
     }
 
     IEnumerator RotatePivot(){
-        float lineRotateSpeed = 360f; // Set the rotation speed here
+        float lineRotateSpeed = 500f; // Set the rotation speed here
         Quaternion initialRotation = pivot.transform.rotation;
         
         while (true){
             int flag = 0;
             for (float angle = 0f; angle <= 180f; angle += lineRotateSpeed * Time.deltaTime){
-                if (currentState > 1){
+                if (currentState % 3 > 1){
                     flag = 1;
                     break;
                 }
@@ -77,7 +79,7 @@ public class PlayerMovement2 : MonoBehaviour{
             }
             if (flag == 1)break;
             for (float angle = 180f; angle >= 0f; angle -= lineRotateSpeed * Time.deltaTime){
-                if (currentState > 1){
+                if (currentState % 3 > 1){
                     flag = 1;
                     break;
                 }
@@ -103,14 +105,16 @@ public class PlayerMovement2 : MonoBehaviour{
 
         //trying to stop loop below //letss gooo i've done it 
         //however i guess i'm working pretty its fricking 4.52am and i've just messing with these bugs and to fix them i'm just pluging in some lines of code idk 
-    
-            while (true && currentState==2){
+        //fuck it lets make currentstate divided by three so it can loop
+
+
+            while (true && currentState % 3 ==2){
 
                 target.transform.localPosition = new Vector3(-0.5f,0f,0f);
 
                 int flag = 0;
                 for(float x=-0.5f;x<=0.5f;x+=lineChangeSpeed*Time.deltaTime){
-                    if (currentState > 2){
+                    if (currentState % 3 > 2){
                         flag = 1;
                         break;
                     }
@@ -118,7 +122,7 @@ public class PlayerMovement2 : MonoBehaviour{
                     yield return null;
                 }
                 for(float x=0.5f;x>=-0.5f;x-=lineChangeSpeed*Time.deltaTime){
-                    if (currentState > 2){
+                    if (currentState % 3 > 2){
                         flag = 1;
                         break;
                     }
@@ -160,7 +164,7 @@ public class PlayerMovement2 : MonoBehaviour{
     //checking if player has stopped
     bool isPlayerStopped(){
         
-        if(currentState == 3 && rb2dplayer.velocity.magnitude <= 0.05f)return true;
+        if(currentState % 3 == 0 && rb2dplayer.velocity.magnitude <= 0.05f)return true;
         else return false;
         
     }
