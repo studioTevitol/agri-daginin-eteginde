@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour{
     private int currentState = 0;
     [SerializeField] private float strength = 10f;
     public CameraScript cameraScript;
-    [SerializeField] private float waitTime = 1f;
+    //[SerializeField] private float waitTime = 1f;//unused variable
     //experimenting with Camera class, check on unity docs of Camera class
     private Camera m_camera1;    
 

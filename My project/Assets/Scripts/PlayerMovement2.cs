@@ -8,9 +8,12 @@ public class PlayerMovement2 : MonoBehaviour{
     private SpriteRenderer sr_player,sr_line,sr_target;
     private Rigidbody2D rb2dplayer;
     private int currentState = 0;// should be fully private!
+    [SerializeField] private float lineRotateSpeed = 250f;
     [SerializeField] private KeyCode jumpKey=KeyCode.Space;
     [SerializeField] private KeyCode debugKey=KeyCode.V;
     [SerializeField] private float strength=500f;
+    private bool isPlayerStopped=false;
+    private float epsilon=0.1f;
 
     void Start(){
         //commenting bcs value from editor would be ignored
@@ -28,6 +31,7 @@ public class PlayerMovement2 : MonoBehaviour{
         sr_line.enabled = false;
         sr_target.enabled = false;
         sr_player = GetComponent<SpriteRenderer>();
+        StartCoroutine(checkPlayerStopped());
         resetTransform();
     }
 
@@ -37,10 +41,12 @@ public class PlayerMovement2 : MonoBehaviour{
         //but because the target will start at lowest point even tough a player spams jump he/she cant launch itself
         if (Input.GetKeyDown(jumpKey)){
             Debug.Log("Space pressed");
-            currentState=(currentState+1)%3;//optimize: one module instead of three :)
-            if (currentState == 1)startRotationTarget();
-            if (currentState == 2)startForceTarget();
-            if (currentState == 0)shootPlayer();
+            if (currentState != 0 || isPlayerStopped){
+                currentState=(currentState+1)%3;//optimize: one module instead of three :)
+                if (currentState == 1)startRotationTarget();
+                if (currentState == 2)startForceTarget();
+                if (currentState == 0)shootPlayer();
+            }
         }
 
         //to test jumping
@@ -49,16 +55,7 @@ public class PlayerMovement2 : MonoBehaviour{
             currentState=0;
             resetTransform();
         }
-
-        //checking if player stopped and resetting it
-        if(isPlayerStopped()){
-            resetTransform();
-            currentState=0;
-
-        }
-
-        //
-        Debug.Log(currentState % 3);
+        //Debug.Log("currentstate: "+currentState % 3);
     }
 
     void startRotationTarget(){
@@ -67,7 +64,7 @@ public class PlayerMovement2 : MonoBehaviour{
     }
 
     IEnumerator RotatePivot(){
-        float lineRotateSpeed = 500f; // Set the rotation speed here
+        pivot.transform.rotation = Quaternion.Euler(0f, 0f, 0f);// reset pivot rotation
         Quaternion initialRotation = pivot.transform.rotation;
         
         while (true){
@@ -78,6 +75,7 @@ public class PlayerMovement2 : MonoBehaviour{
                     break;
                 }
                 pivot.transform.rotation = initialRotation * Quaternion.Euler(0f, 0f, angle);
+
                 yield return null;
             }
             if (flag == 1)break;
@@ -111,26 +109,19 @@ public class PlayerMovement2 : MonoBehaviour{
         //fuck it lets make currentstate divided by three so it can loop
 
 
-            while (true && currentState % 3 ==2){
-
+            while (true){
                 target.transform.localPosition = new Vector3(-0.5f,0f,0f);
 
                 int flag = 0;
-                for(float x=-0.5f;x<=0.5f;x+=lineChangeSpeed*Time.deltaTime){
-                    if (currentState % 3 > 2){
-                        flag = 1;
-                        break;
-                    }
+                for(float x=-0.5f;x<=0.5f && flag==0;x+=lineChangeSpeed*Time.deltaTime){
+                    if (currentState % 3 != 2)flag = 1;
                     target.transform.localPosition = new Vector3(x,0f,0f);
                     yield return null;
                 }
-                for(float x=0.5f;x>=-0.5f;x-=lineChangeSpeed*Time.deltaTime){
-                    if (currentState % 3 > 2){
-                        flag = 1;
-                        break;
-                    }
+                for(float x=0.5f;x>=-0.5f && flag==0;x-=lineChangeSpeed*Time.deltaTime){
                     target.transform.localPosition = new Vector3(x,0f,0f);
                     yield return null;
+                    if (currentState % 3 != 2)flag = 1;
                 }
                 if (flag == 1)break;
             }
@@ -145,7 +136,9 @@ public class PlayerMovement2 : MonoBehaviour{
     void shootPlayer(){
         sr_line.enabled = false;
         sr_target.enabled = false;
+        isPlayerStopped = false;
         StartCoroutine(_shootPlayer());
+        StartCoroutine(checkPlayerStopped());
     }
 
     IEnumerator _shootPlayer(){
@@ -165,10 +158,19 @@ public class PlayerMovement2 : MonoBehaviour{
     }
 
     //checking if player has stopped
-    bool isPlayerStopped(){
-        if(currentState % 3 == 0 && rb2dplayer.velocity.magnitude <= 0.05f)return true;
-        else return false;
-        
+    IEnumerator checkPlayerStopped(){
+        yield return new WaitForSeconds(.5f);
+        while(!isPlayerStopped){
+            if(Mathf.Abs(rb2dplayer.velocity.sqrMagnitude) < epsilon){
+                float oldSqrMagnitude = Mathf.Abs(rb2dplayer.velocity.sqrMagnitude);
+                yield return new WaitForSeconds(.05f);
+                if(Mathf.Abs(rb2dplayer.velocity.sqrMagnitude) == oldSqrMagnitude)isPlayerStopped = true;
+            }
+            yield return null;
+        }
+        Debug.Log("Player stopped");
+        resetTransform();
+        yield return null;
     }
 
 }
