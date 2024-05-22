@@ -145,6 +145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fe9349e6f83c6a6c9d996be82b07f9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lineRotateSpeed: 250
   jumpKey: 111
   debugKey: 118
   strength: 500
@@ -895,7 +896,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1009878599}
   - component: {fileID: 1009878598}
-  - component: {fileID: 1009878597}
   - component: {fileID: 1009878596}
   m_Layer: 0
   m_Name: PlayerRC
@@ -938,14 +938,6 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!81 &1009878597
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1009878595}
-  m_Enabled: 1
 --- !u!20 &1009878598
 Camera:
   m_ObjectHideFlags: 0
@@ -973,7 +965,7 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.5
+    x: 0.51
     y: 0
     width: 1
     height: 1
@@ -1022,7 +1014,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1126512200}
   - component: {fileID: 1126512199}
-  - component: {fileID: 1126512198}
   - component: {fileID: 1126512197}
   m_Layer: 0
   m_Name: PlayerLC
@@ -1065,14 +1056,6 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!81 &1126512198
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1126512196}
-  m_Enabled: 1
 --- !u!20 &1126512199
 Camera:
   m_ObjectHideFlags: 0
@@ -1100,7 +1083,7 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: -0.5
+    x: -0.51
     y: 0
     width: 1
     height: 1
@@ -2055,6 +2038,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fe9349e6f83c6a6c9d996be82b07f9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lineRotateSpeed: 250
   jumpKey: 119
   debugKey: 118
   strength: 500
