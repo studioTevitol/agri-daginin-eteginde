@@ -7,11 +7,14 @@ public class PlayerMovement2 : MonoBehaviour{
     private GameObject pivot,line,target;
     private SpriteRenderer sr_player,sr_line,sr_target;
     private Rigidbody2D rb2dplayer;
-    [SerializeField] private int currentState = 0;
-    [SerializeField] private float strength;
+    private int currentState = 0;// should be fully private!
+    [SerializeField] private KeyCode jumpKey=KeyCode.Space;
+    [SerializeField] private KeyCode debugKey=KeyCode.V;
+    [SerializeField] private float strength=500f;
 
     void Start(){
-        strength = 500f;
+        //commenting bcs value from editor would be ignored
+        //strength = 500f;
 
         pivot = transform.GetChild(0).gameObject;
         line = pivot.transform.GetChild(0).gameObject;
@@ -32,17 +35,17 @@ public class PlayerMovement2 : MonoBehaviour{
 
         //its not a bug its feature you can jump mid air 
         //but because the target will start at lowest point even tough a player spams jump he/she cant launch itself
-        if (Input.GetKeyDown(KeyCode.Space)){
+        if (Input.GetKeyDown(jumpKey)){
             Debug.Log("Space pressed");
-            currentState++;
-            if (currentState % 3 == 1)startRotationTarget();
-            if (currentState % 3 == 2)startForceTarget();
-            if (currentState % 3 == 0)shootPlayer();
+            currentState=(currentState+1)%3;//optimize: one module instead of three :)
+            if (currentState == 1)startRotationTarget();
+            if (currentState == 2)startForceTarget();
+            if (currentState == 0)shootPlayer();
         }
 
         //to test jumping
-        if(Input.GetKeyDown(KeyCode.P)){
-            Debug.Log("p pressed");
+        if(Input.GetKeyDown(debugKey)){
+            Debug.Log("debugKey pressed");
             currentState=0;
             resetTransform();
         }
@@ -163,7 +166,6 @@ public class PlayerMovement2 : MonoBehaviour{
 
     //checking if player has stopped
     bool isPlayerStopped(){
-        
         if(currentState % 3 == 0 && rb2dplayer.velocity.magnitude <= 0.05f)return true;
         else return false;
         
