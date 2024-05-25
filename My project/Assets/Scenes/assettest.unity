@@ -1944,6 +1944,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SlimeL
       objectReference: {fileID: 0}
+    - target: {fileID: 2603820894438166958, guid: 8b24bd8fef0bb1129891791edb3e2892, type: 3}
+      propertyPath: jumpKey
+      value: 119
+      objectReference: {fileID: 0}
     - target: {fileID: 8212725528266081978, guid: 8b24bd8fef0bb1129891791edb3e2892, type: 3}
       propertyPath: m_LocalPosition.x
       value: -9.23
@@ -2300,6 +2304,10 @@ PrefabInstance:
     - target: {fileID: 2206969546199464276, guid: 8b24bd8fef0bb1129891791edb3e2892, type: 3}
       propertyPath: m_Name
       value: SlimeR
+      objectReference: {fileID: 0}
+    - target: {fileID: 2603820894438166958, guid: 8b24bd8fef0bb1129891791edb3e2892, type: 3}
+      propertyPath: jumpKey
+      value: 111
       objectReference: {fileID: 0}
     - target: {fileID: 8212725528266081978, guid: 8b24bd8fef0bb1129891791edb3e2892, type: 3}
       propertyPath: m_LocalPosition.x
