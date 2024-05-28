@@ -7,9 +7,7 @@ public class SlimeMovement : MonoBehaviour{
     private GameObject pivot,line,target;
     private SpriteRenderer sr_line,sr_target;
     private Rigidbody2D rb2dplayer;
-    private Animator animator;
     private int currentState = 0;// should be fully private!
-    private int animationState = 0;// should be fully private!
     [SerializeField] private float lineRotateSpeed = 250f;
     [SerializeField] private KeyCode jumpKey=KeyCode.Space;
     [SerializeField] private KeyCode debugKey=KeyCode.V;
@@ -32,9 +30,7 @@ public class SlimeMovement : MonoBehaviour{
         sr_target = target.GetComponent<SpriteRenderer>();
         sr_line.enabled = false;
         sr_target.enabled = false;
-        animator = transform.GetChild(1).gameObject.GetComponent<Animator>();
         StartCoroutine(checkPlayerStopped());
-        StartCoroutine(animatePlayer());
         resetTransform();
     }
 
@@ -156,7 +152,6 @@ public class SlimeMovement : MonoBehaviour{
         target.transform.localPosition = new Vector3(0.5f,0f,0f);
         rb2dplayer.velocity = Vector2.zero;
         rb2dplayer.angularVelocity = 0f;
-        animationState = 0;
     }
 
     //checking if player has stopped
@@ -168,20 +163,11 @@ public class SlimeMovement : MonoBehaviour{
                 yield return new WaitForSeconds(.05f);
                 if(Mathf.Abs(rb2dplayer.velocity.sqrMagnitude) == oldSqrMagnitude)isPlayerStopped = true;
             }
-            if (rb2dplayer.velocity.y > epsilon)animationState = 1;
-            if (rb2dplayer.velocity.y < -epsilon)animationState = 2;
             yield return null;
         }
         //Debug.Log("Player stopped");
         resetTransform();
         yield return null;
-    }
-
-    IEnumerator animatePlayer(){
-        while (true){
-            animator.SetInteger("state", animationState);
-            yield return null;
-        }
     }
 
 }
