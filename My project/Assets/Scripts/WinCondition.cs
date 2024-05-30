@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine;
+using System.Diagnostics;
 
 public class WinCondition : MonoBehaviour
 {
@@ -22,12 +23,13 @@ public class WinCondition : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("win");
-    }
-    private void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log("win2");
+        UnityEngine.Debug.Log("win2");
+        GameObject winner=collision.gameObject;
+
+        System.Diagnostics.Debug.Assert(winner.name=="SlimeL" || winner.name=="SlimeR","who won?");
+        if(winner.name=="SlimeL")e_lWin.Invoke();
+        else e_rWin.Invoke();
     }
 }
