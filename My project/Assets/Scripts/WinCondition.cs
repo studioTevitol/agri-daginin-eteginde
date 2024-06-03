@@ -6,12 +6,13 @@ using System.Diagnostics;
 
 public class WinCondition : MonoBehaviour
 {
-    public GameObject o_EventManager;
+    private GameObject o_EventManager;
     private EventManager s_EventManager;
     private UnityEvent e_lWin,e_rWin;
     // Start is called before the first frame update
     void Start()
     {
+        o_EventManager=GameObject.Find("EventManager");
         s_EventManager=o_EventManager.GetComponent<EventManager>();
         e_lWin=s_EventManager.lWin;
         e_rWin=s_EventManager.rWin;
