@@ -60,3 +60,6 @@ sysinfo.txt
 
 # Crashlytics generated file
 crashlytics-build.properties
+[Aa]ssets/TextMesh Pro/Examples/
+[Aa]ssets/TextMesh Pro/Documentation/
+mono_crash.*
