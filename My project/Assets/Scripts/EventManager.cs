@@ -32,7 +32,7 @@ public class EventManager : MonoBehaviour
         o_lWin.SetActive(false);
         o_rWin.SetActive(false);
 
-
+        Object.Instantiate(levels[Random.Range(0,levels.Length)],transform.position,transform.rotation);
     }
 
     // Update is called once per frame
