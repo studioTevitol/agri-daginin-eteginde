@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 276478005}
   - component: {fileID: 276478004}
   m_Layer: 13
-  m_Name: SnowGenerator
+  m_Name: SnowGeneratorL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4965,7 +4965,7 @@ GameObject:
   - component: {fileID: 795988889}
   - component: {fileID: 795988888}
   m_Layer: 14
-  m_Name: SnowGenerator (1)
+  m_Name: SnowGeneratorR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
