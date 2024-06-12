@@ -237,8 +237,8 @@ GameObject:
   - component: {fileID: 6074023748053440642}
   - component: {fileID: 5512929429774944298}
   m_Layer: 0
-  m_Name: SlimewA
-  m_TagString: PlayerRight
+  m_Name: SlimeLeft
+  m_TagString: PlayerLeft
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
