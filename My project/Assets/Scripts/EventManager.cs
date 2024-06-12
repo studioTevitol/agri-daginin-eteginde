@@ -9,7 +9,7 @@ public class EventManager : MonoBehaviour
     public UnityEvent lWin=new UnityEvent();
     public UnityEvent rWin=new UnityEvent();
     [SerializeField] private GameObject Canvas;
-    private GameObject o_lLose,o_rLose,o_lWin,o_rWin;
+    [SerializeField] private GameObject o_lLose,o_rLose,o_lWin,o_rWin;
     private Text t_lScore,t_rScore;
     [SerializeField] private GameObject SlimeL,SlimeR;
     [SerializeField] private GameObject[] levels;

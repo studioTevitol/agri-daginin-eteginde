@@ -237,7 +237,7 @@ GameObject:
   - component: {fileID: 6074023748053440642}
   - component: {fileID: 5512929429774944298}
   m_Layer: 0
-  m_Name: SlimewA
+  m_Name: SlimeRight
   m_TagString: PlayerRight
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -345,7 +345,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lineRotateSpeed: 250
-  jumpKey: 119
+  jumpKey: 111
   debugKey: 118
   strength: 500
 --- !u!114 &5512929429774944298
