@@ -60,7 +60,7 @@ public class LevelManager : MonoBehaviour
     //gets random level by randomindex
     public void LoadNewScene()
     {
-        int randomIndex = Random.Range(2, levelNames.Count);
+        int randomIndex = Random.Range(0, levelNames.Count);
         SceneManager.LoadScene(levelNames[randomIndex]);
         levelNames.RemoveAt(randomIndex);
 
