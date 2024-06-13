@@ -1,13 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
+
+
 public class LevelManager : MonoBehaviour
 {
        
     //levels array
     //[SerializeField] private Scene[] levels;
-    [SerializeField] private List<Scene> levels;
+    [SerializeField] private List<String> levelNames;
     void Start()
     {
         
@@ -15,36 +19,55 @@ public class LevelManager : MonoBehaviour
     
     void Update()
     {
-        
+        Debug.Log(levelNames.Count);
     }
 
     
     //will generate array of levels from builded scenes
-    private List<Scene> newlevels()
+    private List<String> newlevels()
     {
-        List<Scene> temp = new List<Scene>();
+        Debug.Log("newlevels array method");
+        List<String> temp = new List<String>();
+        
+        /**
+        temp.Add(SceneManager.GetSceneAt(2));
+        Debug.Log("first scene successful");
+        temp.Add(SceneManager.GetSceneAt(3));
+        Debug.Log("second scene successful");
+        temp.Add(SceneManager.GetSceneAt(4));
+        Debug.Log("third scene successful");
+        */
         
         //the zeroth and first elemnents are mainmenu scene and credits scene second index is level
-        for (int n = 2; n <= SceneManager.sceneCount; n++)
+        
+        for (int n = 2; n < SceneManager.sceneCountInBuildSettings; n++)
         {
-            temp.Add(SceneManager.GetSceneAt(n));
+            Debug.Log("inside loop" + n);
+            temp.Add(SceneUtility.GetScenePathByBuildIndex(n));
         }
+        
 
         return temp;
     }
 
     //can use it on start button on mainmenu
-    private void SetLevelsArray()
+    public void SetLevelsArray()
     {
-        levels = newlevels();
+        Debug.Log("SET LEVELS ARRAY");
+        levelNames = newlevels();
     }
     
     //gets random level by randomindex
-    private void LoadNewScene()
+    public void LoadNewScene()
     {
-        int randomIndex = Random.Range(2, levels.Count);
-        SceneManager.LoadScene(levels[randomIndex].name);
-        levels.RemoveAt(randomIndex);
+        int randomIndex = Random.Range(2, levelNames.Count);
+        SceneManager.LoadScene(levelNames[randomIndex]);
+        levelNames.RemoveAt(randomIndex);
+
+        if (levelNames.Count < 2)
+        {
+            SetLevelsArray();
+        }
     }
 
     

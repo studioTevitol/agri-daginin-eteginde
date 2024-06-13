@@ -13,8 +13,10 @@ public class EventManager : MonoBehaviour
     [SerializeField] private GameObject o_lLose,o_rLose,o_lWin,o_rWin;
     private Text t_lScore,t_rScore;
     [SerializeField] private GameObject SlimeL,SlimeR;
-    //[SerializeField] private GameObject[] levels;
     public int i_lScore=0,i_rScore=0;
+    
+    //levelmanager
+    private LevelManager s_levelManager;
 
 
 
@@ -22,24 +24,26 @@ public class EventManager : MonoBehaviour
     private void Start()
     {
         
+        s_levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+        
         lWin.AddListener(lGameOver);
         rWin.AddListener(rGameOver);
-
+        
         o_lLose =Canvas.transform.Find("lLose").gameObject;
         o_lWin  =Canvas.transform.Find("lWin").gameObject;
         o_rLose =Canvas.transform.Find("rLose").gameObject;
         o_rWin  =Canvas.transform.Find("rWin").gameObject;
         t_lScore=Canvas.transform.Find("lScore").gameObject.GetComponent<Text>();
         t_rScore=Canvas.transform.Find("rScore").gameObject.GetComponent<Text>();
-
+        
         o_lLose.SetActive(false);
         o_rLose.SetActive(false);
         o_lWin.SetActive(false);
         o_rWin.SetActive(false);
-
+            
         //Object.Instantiate(levels[Random.Range(0,levels.Length)],transform.position,transform.rotation);
     }
-
+        
     // Update is called once per frame
     private void Update()
     {
@@ -78,19 +82,10 @@ public class EventManager : MonoBehaviour
         //i will use method to level loading
         //i have to control scene array somewhere
         
+        //
+        //levelload from levelmanager
+        s_levelManager.LoadNewScene();
         
-        
-        
-        
-        
-        
-        /**
-        SlimeL.transform.SetPositionAndRotation(new Vector3(-10,0,0),SlimeL.transform.rotation);
-        SlimeR.transform.SetPositionAndRotation(new Vector3(10,0,0) ,SlimeR.transform.rotation);
-        Destroy(GameObject.FindWithTag("Finish"));
-        Object.Instantiate(levels[Random.Range(0,levels.Length)],transform.position,transform.rotation);
-        yield return null;
-        */
     }
 
     
