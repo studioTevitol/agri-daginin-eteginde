@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class EventManager : MonoBehaviour
 {
@@ -12,11 +13,15 @@ public class EventManager : MonoBehaviour
     [SerializeField] private GameObject o_lLose,o_rLose,o_lWin,o_rWin;
     private Text t_lScore,t_rScore;
     [SerializeField] private GameObject SlimeL,SlimeR;
-    [SerializeField] private GameObject[] levels;
+    //[SerializeField] private GameObject[] levels;
     public int i_lScore=0,i_rScore=0;
-    // Start is called before the first frame update
+
+
+
+    
     private void Start()
     {
+        
         lWin.AddListener(lGameOver);
         rWin.AddListener(rGameOver);
 
@@ -32,7 +37,7 @@ public class EventManager : MonoBehaviour
         o_lWin.SetActive(false);
         o_rWin.SetActive(false);
 
-        Object.Instantiate(levels[Random.Range(0,levels.Length)],transform.position,transform.rotation);
+        //Object.Instantiate(levels[Random.Range(0,levels.Length)],transform.position,transform.rotation);
     }
 
     // Update is called once per frame
@@ -41,6 +46,10 @@ public class EventManager : MonoBehaviour
         
     }
 
+    
+    //these gets called when lwin and rWin events invoked
+    //lwin and rwin events gets controlled in wincondition.cs
+    
     private void lGameOver(){
         o_rLose.SetActive(true);
         o_lWin.SetActive(true);
@@ -65,11 +74,24 @@ public class EventManager : MonoBehaviour
         o_lWin.SetActive(false);
         o_rWin.SetActive(false);
 
+        //new level generation starts here ig
+        //i will use method to level loading
+        //i have to control scene array somewhere
+        
+        
+        
+        
+        
+        
+        
+        /**
         SlimeL.transform.SetPositionAndRotation(new Vector3(-10,0,0),SlimeL.transform.rotation);
         SlimeR.transform.SetPositionAndRotation(new Vector3(10,0,0) ,SlimeR.transform.rotation);
         Destroy(GameObject.FindWithTag("Finish"));
         Object.Instantiate(levels[Random.Range(0,levels.Length)],transform.position,transform.rotation);
         yield return null;
+        */
     }
 
+    
 }

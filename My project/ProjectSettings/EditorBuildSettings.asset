@@ -8,4 +8,16 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/sandbox-PlayerMovement.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/Levels/MainMenu.unity
+    guid: 35e2a5077a5fea3838edfefe1fffd01f
+  - enabled: 1
+    path: Assets/Scenes/Levels/Credits.unity
+    guid: fb20d80772a9774b7bbac0f704201a95
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level1.unity
+    guid: b73c64083993d87b8867b64d48f32f33
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level0.unity
+    guid: 3b61e24db93e9d3fc83c30433933047e
   m_configObjects: {}
