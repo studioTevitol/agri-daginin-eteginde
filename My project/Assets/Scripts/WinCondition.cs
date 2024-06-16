@@ -32,8 +32,8 @@ public class WinCondition : MonoBehaviour
 
         UnityEngine.Debug.Log("win2");
         GameObject winner=collision.gameObject;
-        System.Diagnostics.Debug.Assert(winner.name=="SlimeL" || winner.name=="SlimeR","who won?");
-        if(winner.name=="SlimeL")e_lWin.Invoke();
+        System.Diagnostics.Debug.Assert(winner.CompareTag("PlayerLeft") || winner.CompareTag("PlayerRight"),"who won?");
+        if(winner.CompareTag("PlayerLeft"))e_lWin.Invoke();
         else e_rWin.Invoke();
         
         
