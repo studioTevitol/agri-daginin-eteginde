@@ -17,8 +17,8 @@ public class DontDestroy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(SceneManager.GetActiveScene().name);
-        Debug.Log(isOnMenus);
+        //Debug.Log(SceneManager.GetActiveScene().name);
+        //Debug.Log(isOnMenus);
         if (SceneManager.GetActiveScene().name == "MainMenu" || SceneManager.GetActiveScene().name == "Credits")
         {
             isOnMenus = true;

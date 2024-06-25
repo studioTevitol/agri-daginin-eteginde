@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Events;
@@ -14,6 +15,12 @@ public class EventManager : MonoBehaviour
     private Text t_lScore,t_rScore;
     [SerializeField] private GameObject SlimeL,SlimeR;
     public int i_lScore=0,i_rScore=0;
+    [SerializeField] private int winScore;
+    private bool isItOnALevelScene = false;
+    
+    private string[] nonlevels = {"MainMenu", "Credits", "WinnerScene"};
+
+    
     
     //levelmanager
     private LevelManager s_levelManager;
@@ -47,7 +54,7 @@ public class EventManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        
+        WinnerCheck();
     }
 
     
@@ -88,5 +95,68 @@ public class EventManager : MonoBehaviour
         
     }
 
+    public void WinScoreInput(string s)
+    {
+        winScore = Convert.ToInt32(s);
+        Debug.Log("string input: " + s);
+        Debug.Log("int input: " + winScore);
+
+    }
+
+    //checking if someone matched to the winScore and won the game as a whole
+    private void WinnerCheck()
+    {
+        isitOnLevels();
+        if (isItOnALevelScene)
+        {
+            Debug.Log("win check check jack jack jack ");
+            Debug.Log(SceneManager.GetActiveScene().name);
+            //checking if left won
+            if (i_lScore == winScore)
+            {
+                Debug.Log("Left is the winner!");
+                ThereIsAWınner(SlimeL);
+                //return SlimeL;
+            }
+        
+            //checking if right won
+            if (i_rScore == winScore)
+            {
+                Debug.Log("Right is the winner");
+                ThereIsAWınner(SlimeR);
+                //return SlimeR;
+            }
+        }
+        //return null;
+    }
+    
+    //end of the game
+
+
+    private void ThereIsAWınner(GameObject winnerPlObj)
+    {
+        isItOnALevelScene = false;
+        SceneManager.LoadScene("WinnerScene");
+    }
+    
+    
+    //to make winnercheck() work only on level scenes not on main menu, credits or etc.
+    //it can also be a bool bu idk
+    private void isitOnLevels()
+    {
+        for (int i = 0; i < nonlevels.Length; i++)
+        {
+            if (SceneManager.GetActiveScene().name == nonlevels[i])
+            {
+                //it is a nonlevel scene
+                isItOnALevelScene = false;
+            }
+            else
+            {
+                //it is on level scene
+                isItOnALevelScene = true;
+            }
+        }
+    }
     
 }

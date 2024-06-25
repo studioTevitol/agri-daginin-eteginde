@@ -19,7 +19,7 @@ public class LevelManager : MonoBehaviour
     
     void Update()
     {
-        Debug.Log(levelNames.Count);
+        //Debug.Log(levelNames.Count);
     }
 
     
@@ -39,10 +39,10 @@ public class LevelManager : MonoBehaviour
         */
         
         //the zeroth and first elemnents are mainmenu scene and credits scene second index is level
-        
-        for (int n = 2; n < SceneManager.sceneCountInBuildSettings; n++)
+        //i've added another scene ccalled winner screen so n has to start from 3
+        for (int n = 3; n < SceneManager.sceneCountInBuildSettings; n++)
         {
-            Debug.Log("inside loop" + n);
+            //Debug.Log("inside loop" + n);
             temp.Add(SceneUtility.GetScenePathByBuildIndex(n));
         }
         
@@ -64,7 +64,8 @@ public class LevelManager : MonoBehaviour
         SceneManager.LoadScene(levelNames[randomIndex]);
         levelNames.RemoveAt(randomIndex);
 
-        if (levelNames.Count < 2)
+        //again new scene added to it has to be increased to 3 from 2
+        if (levelNames.Count < 3)
         {
             SetLevelsArray();
         }
